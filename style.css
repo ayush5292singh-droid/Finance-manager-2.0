@@ -1,0 +1,714 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  background:
+    radial-gradient(circle at 10% 10%, #241c55 0%, transparent 30%),
+    radial-gradient(circle at 90% 90%, #101d4d 0%, transparent 30%),
+    #070914;
+  color: white;
+  overflow-x: hidden;
+}
+
+/* LOCK */
+
+#lockScreen {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.lockBox {
+  width: 420px;
+  max-width: 100%;
+  padding: 40px 30px;
+  text-align: center;
+  background: #121624;
+  border: 1px solid #30374d;
+  border-radius: 30px;
+  box-shadow: 0 30px 80px #0008;
+}
+
+.lockIcon {
+  width: 70px;
+  height: 70px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  background: linear-gradient(135deg,#7968ff,#4d9cff);
+  font-size: 30px;
+}
+
+.smallText {
+  color: #929ab2;
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 3px;
+}
+
+.lockBox .smallText {
+  margin-top: 20px;
+}
+
+.lockBox h1 {
+  margin-top: 12px;
+  font-size: 46px;
+  line-height: .9;
+  text-align: left;
+}
+
+.lockBox h1 span,
+.mainTitle span {
+  color: #8373ff;
+}
+
+.lockBox p {
+  color: #858da5;
+  margin: 22px 0;
+}
+
+#passwordInput {
+  width: 100%;
+  height: 52px;
+  border-radius: 14px;
+  border: 1px solid #343b52;
+  background: #080b14;
+  color: white;
+  padding: 0 15px;
+  text-align: center;
+  font-size: 16px;
+  outline: none;
+}
+
+#unlockBtn {
+  width: 100%;
+  height: 52px;
+  margin-top: 12px;
+  border: 0;
+  border-radius: 14px;
+  background: linear-gradient(100deg,#7968ff,#4d9cff);
+  color: white;
+  font-weight: bold;
+}
+
+#passwordError,
+#expenseError {
+  color: #ff687b;
+  font-size: 12px;
+  min-height: 18px;
+  margin-top: 8px;
+}
+
+
+/* APP */
+
+#app {
+  display: none;
+  width: 100%;
+  max-width: 1100px;
+  margin: auto;
+  padding: 35px 20px 80px;
+}
+
+
+/* HEADER */
+
+header {
+  min-height: 230px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mainTitle {
+  margin-top: 12px;
+  font-size: clamp(45px,7vw,70px);
+  line-height: .88;
+  letter-spacing: -4px;
+}
+
+.subtitle {
+  margin-top: 20px;
+  color: #858da5;
+  font-size: 17px;
+}
+
+
+/* ROBOT */
+
+.robot {
+  position: relative;
+  width: 190px;
+  height: 200px;
+}
+
+.antenna {
+  position: absolute;
+  left: 94px;
+  top: 0;
+  width: 4px;
+  height: 25px;
+  background: #7968ff;
+}
+
+.antenna:before {
+  content: "";
+  position: absolute;
+  top: -7px;
+  left: -3px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #66c2ff;
+  box-shadow: 0 0 15px #66c2ff;
+}
+
+.head {
+  position: absolute;
+  left: 40px;
+  top: 25px;
+  width: 110px;
+  height: 80px;
+  border-radius: 28px;
+  background: linear-gradient(145deg,#8b7bff,#5548c6);
+}
+
+.eye {
+  position: absolute;
+  top: 25px;
+  width: 11px;
+  height: 14px;
+  border-radius: 50%;
+  background: #b7e8ff;
+  box-shadow: 0 0 12px #6cc9ff;
+}
+
+.e1 {
+  left: 30px;
+}
+
+.e2 {
+  right: 30px;
+}
+
+.mouth {
+  position: absolute;
+  left: 41px;
+  top: 52px;
+  width: 29px;
+  height: 5px;
+  border-radius: 10px;
+  background: #aaa1ff;
+}
+
+.bodyRobot {
+  position: absolute;
+  left: 60px;
+  top: 110px;
+  width: 72px;
+  height: 65px;
+  border: 1px solid #3b435c;
+  border-radius: 20px;
+  background: #141928;
+  text-align: center;
+  padding-top: 10px;
+  font-size: 22px;
+  color: #65bfff;
+}
+
+.bodyRobot span {
+  display: block;
+  width: 7px;
+  height: 7px;
+  margin: 10px auto;
+  border-radius: 50%;
+  background: #8474ff;
+  box-shadow: 0 0 12px #8474ff;
+}
+
+.arm {
+  position: absolute;
+  top: 115px;
+  width: 13px;
+  height: 48px;
+  border-radius: 15px;
+  background: #5c62b6;
+}
+
+.a1 {
+  left: 35px;
+  transform: rotate(25deg);
+}
+
+.a2 {
+  right: 35px;
+  transform: rotate(-25deg);
+}
+
+
+/* BALANCE */
+
+.balanceCard {
+  padding: 30px;
+  border-radius: 28px;
+  background: linear-gradient(120deg,#6252eb,#7969ff,#4d9eff);
+  box-shadow: 0 25px 70px #5146d955;
+}
+
+.balanceTop {
+  display: flex;
+  justify-content: space-between;
+}
+
+.available {
+  color: #ffffffaa;
+  margin-top: 8px;
+}
+
+.rupeeBox {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px;
+  background: #ffffff22;
+  font-size: 25px;
+}
+
+#balance {
+  margin-top: 22px;
+  font-size: clamp(40px,6vw,55px);
+  font-weight: bold;
+}
+
+.balanceCard p {
+  color: #ffffffaa;
+  margin-top: 10px;
+}
+
+
+/* SALARY */
+
+.salaryCard {
+  margin-top: 16px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border-radius: 23px;
+  background: #131724;
+  border: 1px solid #292f42;
+}
+
+.salaryIcon {
+  width: 55px;
+  height: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 17px;
+  background: #23213f;
+  font-size: 25px;
+}
+
+.salaryInfo {
+  flex: 1;
+}
+
+#salary {
+  margin-top: 7px;
+  font-size: 27px;
+}
+
+#salaryBtn {
+  padding: 13px 18px;
+  border: 0;
+  border-radius: 13px;
+  background: #292f43;
+  color: #aaa0ff;
+  font-weight: bold;
+}
+
+
+/* NAV */
+
+.nav {
+  display: flex;
+  gap: 10px;
+  margin: 28px 0;
+}
+
+.navBtn {
+  border: 1px solid #30374d;
+  border-radius: 13px;
+  padding: 12px 18px;
+  background: #121624;
+  color: #9da5bb;
+  cursor: pointer;
+}
+
+.navBtn.active {
+  background: linear-gradient(100deg,#7968ff,#4d9cff);
+  color: white;
+}
+
+
+/* PAGES */
+
+.page {
+  display: none;
+}
+
+.activePage {
+  display: block;
+}
+
+.pageTitle {
+  margin-top: 7px;
+  font-size: 32px;
+}
+
+.pageDescription {
+  margin-top: 10px;
+  color: #858da5;
+}
+
+
+/* EXPENSE */
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 15px;
+}
+
+.addBtn {
+  border: 0;
+  padding: 14px 18px;
+  border-radius: 14px;
+  background: linear-gradient(100deg,#7968ff,#4d9cff);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.addBtn span {
+  font-size: 20px;
+}
+
+.expenseForm {
+  display: none;
+  margin-top: 18px;
+  padding: 22px;
+  border-radius: 22px;
+  background: #131724;
+  border: 1px solid #30374d;
+}
+
+.formTitle {
+  color: #aaa0ff;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.expenseForm input {
+  width: 100%;
+  height: 50px;
+  margin-bottom: 10px;
+  padding: 0 15px;
+  border-radius: 13px;
+  border: 1px solid #30374d;
+  outline: none;
+  background: #080b14;
+  color: white;
+  font-size: 15px;
+}
+
+.formButtons {
+  display: flex;
+  gap: 10px;
+}
+
+.formButtons button {
+  flex: 1;
+  height: 48px;
+  border: 0;
+  border-radius: 13px;
+  font-weight: bold;
+}
+
+#cancelExpense {
+  background: #292f43;
+  color: #aaa;
+}
+
+#saveExpense {
+  background: linear-gradient(100deg,#7968ff,#4d9cff);
+  color: white;
+}
+
+
+/* EXPENSE CARD */
+
+.expenseCard {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-top: 12px;
+  padding: 18px;
+  border-radius: 20px;
+  background: #131724;
+  border: 1px solid #292f42;
+}
+
+.expenseIcon {
+  width: 50px;
+  height: 50px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px;
+  background: #23213f;
+  font-size: 22px;
+}
+
+.expenseInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.expenseInfo h3 {
+  font-size: 17px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.expenseInfo p {
+  color: #747c94;
+  font-size: 11px;
+  margin-top: 5px;
+}
+
+.expenseMoney {
+  color: #ff7182;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.deleteBtn {
+  border: 0;
+  background: #292033;
+  color: #ff7182;
+  border-radius: 10px;
+  width: 34px;
+  height: 34px;
+}
+
+
+/* EMPTY */
+
+.empty {
+  margin-top: 15px;
+  padding: 40px 20px;
+  text-align: center;
+  border-radius: 22px;
+  border: 1px dashed #30374d;
+  color: #7b839a;
+}
+
+.empty div {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+.empty h3 {
+  color: white;
+}
+
+
+/* STATS */
+
+.statsCard {
+  margin-top: 20px;
+  padding: 22px;
+  border-radius: 22px;
+  background: #131724;
+  border: 1px solid #292f42;
+}
+
+.statsCard h2 {
+  font-size: 20px;
+}
+
+.chart {
+  height: 240px;
+  margin-top: 25px;
+  display: flex;
+  align-items: end;
+  justify-content: space-around;
+  gap: 12px;
+  border-bottom: 1px solid #30374d;
+}
+
+.barBox {
+  height: 100%;
+  flex: 1;
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  position: relative;
+}
+
+.bar {
+  width: min(45px,70%);
+  min-height: 4px;
+  border-radius: 9px 9px 0 0;
+  background: linear-gradient(#7968ff,#4d9cff);
+}
+
+.barLabel {
+  position: absolute;
+  bottom: -25px;
+  color: #858da5;
+  font-size: 11px;
+}
+
+.tipCard {
+  display: flex;
+  gap: 15px;
+  margin-top: 18px;
+  padding: 20px;
+  border-radius: 22px;
+  background: #131724;
+  border: 1px solid #292f42;
+}
+
+.tipIcon {
+  font-size: 30px;
+}
+
+.tipCard h3 {
+  margin-top: 7px;
+}
+
+.tipCard p {
+  color: #858da5;
+  margin-top: 7px;
+}
+
+
+/* NOTES */
+
+.notesCard {
+  margin-top: 25px;
+  padding: 22px;
+  border-radius: 22px;
+  background: #131724;
+  border: 1px solid #292f42;
+}
+
+#notes {
+  width: 100%;
+  height: 130px;
+  margin-top: 15px;
+  padding: 15px;
+  resize: vertical;
+  border-radius: 14px;
+  border: 1px solid #30374d;
+  outline: none;
+  background: #080b14;
+  color: white;
+  font-family: inherit;
+}
+
+#saveNotes {
+  margin-top: 10px;
+  padding: 12px 18px;
+  border: 0;
+  border-radius: 12px;
+  background: linear-gradient(100deg,#7968ff,#4d9cff);
+  color: white;
+  font-weight: bold;
+}
+
+
+/* MOBILE */
+
+@media(max-width:700px) {
+
+  #app {
+    padding: 25px 15px 60px;
+  }
+
+  header {
+    min-height: 190px;
+  }
+
+  .mainTitle {
+    font-size: 43px;
+  }
+
+  .robot {
+    transform: scale(.7);
+    transform-origin: right top;
+    margin-right: -30px;
+  }
+
+  .sectionHeader {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .addBtn {
+    width: 100%;
+  }
+}
+
+@media(max-width:480px) {
+
+  .robot {
+    display: none;
+  }
+
+  .mainTitle {
+    font-size: 40px;
+  }
+
+  .nav {
+    overflow-x: auto;
+  }
+
+  .navBtn {
+    white-space: nowrap;
+  }
+
+  .salaryCard {
+    padding: 15px;
+  }
+
+  .salaryIcon {
+    width: 45px;
+    height: 45px;
+  }
+
+  #salary {
+    font-size: 22px;
+  }
+
+  #salaryBtn {
+    padding: 11px;
+  }
+}
