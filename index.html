@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Finance Manager</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#070914;
+    color:#fff;
+    min-height:100vh;
+}
+
+button,input{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+/* ================= LOCK ================= */
+
+#lockScreen{
+    position:fixed;
+    inset:0;
+    z-index:100;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    background:
+        radial-gradient(circle at 20% 10%,#5544b5,#070914 55%);
+}
+
+.lockBox{
+    width:420px;
+    max-width:100%;
+    padding:40px 30px;
+    text-align:center;
+    border:1px solid #343b58;
+    border-radius:30px;
+    background:#111526;
+    box-shadow:0 30px 100px #000;
+}
+
+.lockIcon{
+    width:78px;
+    height:78px;
+    margin:auto;
+    display:grid;
+    place-items:center;
+    border-radius:24px;
+    font-size:36px;
+    background:linear-gradient(135deg,#806fff,#49a8ff);
+}
+
+.lockBox h1{
+    margin-top:20px;
+    font-size:34px;
+}
+
+.lockBox h1 span{
+    color:#8170ff;
+}
+
+.lockBox p{
+    margin:12px 0 20px;
+    color:#858da5;
+}
+
+#password{
+    width:100%;
+    height:54px;
+    padding:0 15px;
+    border:1px solid #343b53;
+    border-radius:14px;
+    outline:none;
+    text-align:center;
+    color:#fff;
+    background:#080b15;
+}
+
+.unlock{
+    width:100%;
+    height:54px;
+    margin-top:10px;
+    border:0;
+    border-radius:14px;
+    color:#fff;
+    font-weight:bold;
+    background:linear-gradient(110deg,#7665ff,#4b9fff);
+}
+
+#error{
+    min-height:18px;
+    color:#ff7180;
+}
+
+/* ================= APP ================= */
+
+#app{
+    display:none;
+    max-width:1150px;
+    margin:auto;
+    padding:25px 18px 70px;
+}
+
+/* ================= HEADER ================= */
+
+.header{
+    min-height:260px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.eyebrow{
+    color:#858da8;
+    font-size:11px;
+    font-weight:bold;
+    letter-spacing:3px;
+}
+
+.header h1{
+    margin-top:12px;
+    font-size:clamp(50px,8vw,82px);
+    line-height:.9;
+    letter-spacing:-5px;
+}
+
+.header h1 span{
+    color:#8170ff;
+}
+
+.subtitle{
+    margin-top:20px;
+    color:#858da5;
+    font-size:17px;
+}
+
+/* ================= ROBOT ================= */
+
+.robot{
+    width:220px;
+    height:230px;
+    position:relative;
+    animation:float 3s ease-in-out infinite;
+}
+
+@keyframes float{
+    50%{
+        transform:translateY(-10px);
+    }
+}
+
+.robotHead{
+    position:absolute;
+    top:10px;
+    left:45px;
+    width:130px;
+    height:105px;
+    border-radius:30px;
+    background:linear-gradient(135deg,#897aff,#5141bd);
+    box-shadow:0 15px 35px #4f45bd55;
+}
+
+.robotHead:before{
+    content:"";
+    position:absolute;
+    width:4px;
+    height:28px;
+    top:-28px;
+    left:63px;
+    background:#8170ff;
+}
+
+.robotHead:after{
+    content:"";
+    position:absolute;
+    width:11px;
+    height:11px;
+    top:-36px;
+    left:60px;
+    border-radius:50%;
+    background:#6bd1ff;
+    box-shadow:0 0 18px #6bd1ff;
+}
+
+.eye{
+    position:absolute;
+    top:35px;
+    width:15px;
+    height:20px;
+    border-radius:50%;
+    background:#c4f3ff;
+    box-shadow:0 0 12px #6bd1ff;
+}
+
+.eye1{
+    left:35px;
+}
+
+.eye2{
+    right:35px;
+}
+
+.mouth{
+    position:absolute;
+    bottom:18px;
+    left:49px;
+    width:32px;
+    height:7px;
+    border-radius:20px;
+    background:#c5bdff;
+}
+
+.robotBody{
+    position:absolute;
+    top:130px;
+    left:65px;
+    width:90px;
+    height:75px;
+    display:grid;
+    place-items:center;
+    border-radius:23px;
+    border:1px solid #424a67;
+    background:#151a2b;
+    font-size:28px;
+}
+
+.arm{
+    position:absolute;
+    top:135px;
+    width:15px;
+    height:60px;
+    border-radius:20px;
+    background:#6269bd;
+}
+
+.arm1{
+    left:38px;
+    transform:rotate(25deg);
+}
+
+.arm2{
+    right:38px;
+    transform:rotate(-25deg);
+}
+
+/* ================= BALANCE ================= */
+
+.balance{
+    padding:30px;
+    border-radius:30px;
+    background:linear-gradient(115deg,#5546d9,#7868ff,#479dff);
+    box-shadow:0 25px 70px #5b50dc33;
+}
+
+.balanceTop{
+    display:flex;
+    justify-content:space-between;
+}
+
+.balanceIcon{
+    width:52px;
+    height:52px;
+    display:grid;
+    place-items:center;
+    border-radius:16px;
+    background:#ffffff20;
+    font-size:25px;
+}
+
+.balance h2{
+    margin-top:25px;
+    font-size:clamp(45px,7vw,70px);
+}
+
+.balance small{
+    color:#ffffffaa;
+}
+
+/* ================= INFO CARDS ================= */
+
+.infoGrid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+    margin-top:15px;
+}
+
+.infoCard{
+    padding:22px;
+    display:flex;
+    align-items:center;
+    gap:15px;
+    border:1px solid #2c3249;
+    border-radius:23px;
+    background:#111526;
+}
+
+.infoIcon{
+    width:55px;
+    height:55px;
+    display:grid;
+    place-items:center;
+    border-radius:17px;
+    background:#24213f;
+    font-size:24px;
+}
+
+.infoGrow{
+    flex:1;
+}
+
+.infoGrow p{
+    color:#777f96;
+    font-size:10px;
+    font-weight:bold;
+    letter-spacing:2px;
+}
+
+.infoGrow h3{
+    margin-top:6px;
+    font-size:24px;
+}
+
+.edit{
+    padding:10px 14px;
+    border:0;
+    border-radius:12px;
+    color:#aaa0ff;
+    background:#292f45;
+    font-weight:bold;
+}
+
+/* ================= NAV ================= */
+
+.nav{
+    display:flex;
+    gap:10px;
+    margin:28px 0;
+}
+
+.nav button{
+    flex:1;
+    padding:14px;
+    border:1px solid #30364d;
+    border-radius:14px;
+    color:#9199af;
+    background:#111526;
+}
+
+.nav button.active{
+    color:#fff;
+    border-color:transparent;
+    background:linear-gradient(110deg,#7665ff,#4b9fff);
+}
+
+/* ================= MESSAGE ================= */
+
+.welcome{
+    padding:25px;
+    border:1px solid #292f42;
+    border-radius:23px;
+    background:#111526;
+}
+
+.welcome h2{
+    margin-top:7px;
+    font-size:27px;
+}
+
+.welcome p{
+    margin-top:10px;
+    color:#858da5;
+    line-height:1.6;
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:700px){
+
+    #app{
+        padding:20px 14px 50px;
+    }
+
+    .header{
+        min-height:210px;
+    }
+
+    .robot{
+        display:none;
+    }
+
+    .header h1{
+        font-size:52px;
+    }
+
+    .infoGrid{
+        grid-template-columns:1fr;
+    }
+
+    .nav button{
+        font-size:13px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= PASSWORD SCREEN ================= -->
+
+<div id="lockScreen">
+
+    <div class="lockBox">
+
+        <div class="lockIcon">
+            🔐
+        </div>
+
+        <h1>
+            FINANCE <span>MANAGER</span>
+        </h1>
+
+        <p>
+            Your money. Your control.
+        </p>
+
+        <input
+            id="password"
+            type="password"
+            placeholder="Enter password"
+        >
+
+        <button
+            class="unlock"
+            onclick="unlock()"
+        >
+            UNLOCK →
+        </button>
+
+        <p id="error"></p>
+
+    </div>
+
+</div>
+
+
+<!-- ================= MAIN APP ================= -->
+
+<div id="app">
+
+    <!-- HEADER -->
+
+    <section class="header">
+
+        <div>
+
+            <div class="eyebrow">
+                SMART MONEY CONTROL
+            </div>
+
+            <h1>
+                FINANCE <span>MANAGER</span>
+            </h1>
+
+            <div class="subtitle">
+                Take control of your money.
+            </div>
+
+        </div>
+
+
+        <!-- ROBOT -->
+
+        <div class="robot">
+
+            <div class="robotHead">
+
+                <div class="eye eye1"></div>
+
+                <div class="eye eye2"></div>
+
+                <div class="mouth"></div>
+
+            </div>
+
+            <div class="robotBody">
+                ₹
+            </div>
+
+            <div class="arm arm1"></div>
+
+            <div class="arm arm2"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- BALANCE -->
+
+    <section class="balance">
+
+        <div class="balanceTop">
+
+            <div>
+
+                <div
+                    class="eyebrow"
+                    style="color:#ffffffaa"
+                >
+                    TOTAL BALANCE
+                </div>
+
+                <small>
+                    ● Available money
+                </small>
+
+            </div>
+
+            <div class="balanceIcon">
+                ₹
+            </div>
+
+        </div>
+
+        <h2 id="balanceAmount">
+            ₹0
+        </h2>
+
+        <small>
+            Set your monthly income to begin.
+        </small>
+
+    </section>
+
+
+    <!-- INCOME / EXPENSE -->
+
+    <section class="infoGrid">
+
+        <div class="infoCard">
+
+            <div class="infoIcon">
+                💼
+            </div>
+
+            <div class="infoGrow">
+
+                <p>
+                    MONTHLY INCOME
+                </p>
+
+                <h3 id="incomeAmount">
+                    ₹0
+                </h3>
+
+            </div>
+
+            <button
+                class="edit"
+                onclick="setIncome()"
+            >
+                EDIT
+            </button>
+
+        </div>
+
+
+        <div class="infoCard">
+
+            <div class="infoIcon">
+                💸
+            </div>
+
+            <div class="infoGrow">
+
+                <p>
+                    TOTAL EXPENSES
+                </p>
+
+                <h3>
+                    ₹0
+                </h3>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- NAVIGATION -->
+
+    <nav class="nav">
+
+        <button
+            class="active"
+            onclick="changePage(this)"
+        >
+            🏠 Home
+        </button>
+
+        <button
+            onclick="changePage(this)"
+        >
+            💸 Expenses
+        </button>
+
+        <button
+            onclick="changePage(this)"
+        >
+            📊 Stats
+        </button>
+
+    </nav>
+
+
+    <!-- WELCOME -->
+
+    <section class="welcome">
+
+        <div class="eyebrow">
+            FINANCE ASSISTANT
+        </div>
+
+        <h2>
+            Welcome to your money dashboard 👋
+        </h2>
+
+        <p>
+            Your complete financial control center
+            starts here. In the next parts we will
+            add expenses, automatic balance deduction,
+            receipt scanning, statistics, budgets,
+            goals and the smart finance coach.
+        </p>
+
+    </section>
+
+</div>
+
+
+<script>
+
+/* ================= SETTINGS ================= */
+
+const PASSWORD = "1234";
+
+
+/* ================= DATA ================= */
+
+let income =
+    Number(
+        localStorage.getItem(
+            "finance_income"
+        )
+    ) || 0;
+
+
+/* ================= UNLOCK ================= */
+
+function unlock(){
+
+    const entered =
+        document
+        .getElementById("password")
+        .value;
+
+    if(entered === PASSWORD){
+
+        document
+        .getElementById("lockScreen")
+        .style.display = "none";
+
+        document
+        .getElementById("app")
+        .style.display = "block";
+
+        updateIncome();
+
+    }
+
+    else{
+
+        document
+        .getElementById("error")
+        .textContent =
+        "Incorrect password.";
+
+    }
+
+}
+
+
+/* ENTER KEY */
+
+document
+.getElementById("password")
+.addEventListener(
+    "keydown",
+    function(event){
+
+        if(event.key === "Enter"){
+            unlock();
+        }
+
+    }
+);
+
+
+/* ================= INCOME ================= */
+
+function setIncome(){
+
+    const value =
+        prompt(
+            "Enter your monthly income:"
+        );
+
+    if(value === null){
+        return;
+    }
+
+    const amount =
+        Number(value);
+
+    if(
+        !Number.isFinite(amount) ||
+        amount < 0
+    ){
+
+        alert(
+            "Please enter a valid amount."
+        );
+
+        return;
+
+    }
+
+    income = amount;
+
+    localStorage.setItem(
+        "finance_income",
+        income
+    );
+
+    updateIncome();
+
+}
+
+
+/* ================= UPDATE ================= */
+
+function updateIncome(){
+
+    document
+    .getElementById("incomeAmount")
+    .textContent =
+    "₹" +
+    income.toLocaleString(
+        "en-IN"
+    );
+
+    document
+    .getElementById("balanceAmount")
+    .textContent =
+    "₹" +
+    income.toLocaleString(
+        "en-IN"
+    );
+
+}
+
+
+/* ================= NAV ================= */
+
+function changePage(button){
+
+    document
+    .querySelectorAll(".nav button")
+    .forEach(
+        function(btn){
+            btn.classList.remove("active");
+        }
+    );
+
+    button.classList.add("active");
+
+}
+
+</script>
+
+</body>
+</html>
