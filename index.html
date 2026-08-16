@@ -1,1703 +1,206 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Finance Manager</title>
-
-<style>
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-}
-
-body{
-    font-family:Arial,Helvetica,sans-serif;
-    background:#070914;
-    color:#fff;
-    min-height:100vh;
-}
-
-button,input,select{
-    font:inherit;
-}
-
-button{
-    cursor:pointer;
-}
-
-.hidden{
-    display:none!important;
-}
-
-/* ================= LOCK ================= */
-
-#lockScreen{
-    position:fixed;
-    inset:0;
-    z-index:999;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    padding:20px;
-    background:
-    radial-gradient(circle at 20% 10%,#5544b5,#070914 55%);
-}
-
-.lockBox{
-    width:420px;
-    max-width:100%;
-    padding:40px 30px;
-    text-align:center;
-    border:1px solid #343b58;
-    border-radius:30px;
-    background:#111526;
-    box-shadow:0 30px 100px #000;
-}
-
-.lockIcon{
-    width:78px;
-    height:78px;
-    margin:auto;
-    display:grid;
-    place-items:center;
-    border-radius:24px;
-    font-size:36px;
-    background:linear-gradient(135deg,#806fff,#49a8ff);
-}
-
-.lockBox h1{
-    margin-top:20px;
-    font-size:34px;
-}
-
-.lockBox h1 span{
-    color:#8170ff;
-}
-
-.lockBox p{
-    margin:12px 0 20px;
-    color:#858da5;
-}
-
-#password{
-    width:100%;
-    height:54px;
-    padding:0 15px;
-    border:1px solid #343b53;
-    border-radius:14px;
-    outline:none;
-    text-align:center;
-    color:#fff;
-    background:#080b15;
-}
-
-.unlock{
-    width:100%;
-    height:54px;
-    margin-top:10px;
-    border:0;
-    border-radius:14px;
-    color:#fff;
-    font-weight:bold;
-    background:linear-gradient(110deg,#7665ff,#4b9fff);
-}
-
-#error{
-    min-height:18px;
-    color:#ff7180;
-}
-
-/* ================= APP ================= */
-
-#app{
-    display:none;
-    max-width:1150px;
-    margin:auto;
-    padding:25px 18px 70px;
-}
-
-/* ================= HEADER ================= */
-
-.header{
-    min-height:260px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-}
-
-.eyebrow{
-    color:#858da8;
-    font-size:11px;
-    font-weight:bold;
-    letter-spacing:3px;
-}
-
-.header h1{
-    margin-top:12px;
-    font-size:clamp(50px,8vw,82px);
-    line-height:.9;
-    letter-spacing:-5px;
-}
-
-.header h1 span{
-    color:#8170ff;
-}
-
-.subtitle{
-    margin-top:20px;
-    color:#858da5;
-    font-size:17px;
-}
-
-/* ================= ROBOT ================= */
-
-.robot{
-    width:220px;
-    height:230px;
-    position:relative;
-    animation:float 3s ease-in-out infinite;
-}
-
-@keyframes float{
-    50%{
-        transform:translateY(-10px);
-    }
-}
-
-.robotHead{
-    position:absolute;
-    top:10px;
-    left:45px;
-    width:130px;
-    height:105px;
-    border-radius:30px;
-    background:linear-gradient(135deg,#897aff,#5141bd);
-    box-shadow:0 15px 35px #4f45bd55;
-}
-
-.robotHead:before{
-    content:"";
-    position:absolute;
-    width:4px;
-    height:28px;
-    top:-28px;
-    left:63px;
-    background:#8170ff;
-}
-
-.robotHead:after{
-    content:"";
-    position:absolute;
-    width:11px;
-    height:11px;
-    top:-36px;
-    left:60px;
-    border-radius:50%;
-    background:#6bd1ff;
-    box-shadow:0 0 18px #6bd1ff;
-}
-
-.eye{
-    position:absolute;
-    top:35px;
-    width:15px;
-    height:20px;
-    border-radius:50%;
-    background:#c4f3ff;
-    box-shadow:0 0 12px #6bd1ff;
-}
-
-.eye1{
-    left:35px;
-}
-
-.eye2{
-    right:35px;
-}
-
-.mouth{
-    position:absolute;
-    bottom:18px;
-    left:49px;
-    width:32px;
-    height:7px;
-    border-radius:20px;
-    background:#c5bdff;
-}
-
-.robotBody{
-    position:absolute;
-    top:130px;
-    left:65px;
-    width:90px;
-    height:75px;
-    display:grid;
-    place-items:center;
-    border-radius:23px;
-    border:1px solid #424a67;
-    background:#151a2b;
-    font-size:28px;
-}
-
-.arm{
-    position:absolute;
-    top:135px;
-    width:15px;
-    height:60px;
-    border-radius:20px;
-    background:#6269bd;
-}
-
-.arm1{
-    left:38px;
-    transform:rotate(25deg);
-}
-
-.arm2{
-    right:38px;
-    transform:rotate(-25deg);
-}
-
-/* ================= BALANCE ================= */
-
-.balance{
-    padding:30px;
-    border-radius:30px;
-    background:linear-gradient(115deg,#5546d9,#7868ff,#479dff);
-    box-shadow:0 25px 70px #5b50dc33;
-}
-
-.balanceTop{
-    display:flex;
-    justify-content:space-between;
-}
-
-.balanceIcon{
-    width:52px;
-    height:52px;
-    display:grid;
-    place-items:center;
-    border-radius:16px;
-    background:#ffffff20;
-    font-size:25px;
-}
-
-.balance h2{
-    margin-top:25px;
-    font-size:clamp(45px,7vw,70px);
-}
-
-.balance small{
-    color:#ffffffaa;
-}
-
-/* ================= INFO ================= */
-
-.infoGrid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:15px;
-    margin-top:15px;
-}
-
-.infoCard{
-    padding:22px;
-    display:flex;
-    align-items:center;
-    gap:15px;
-    border:1px solid #2c3249;
-    border-radius:23px;
-    background:#111526;
-}
-
-.infoIcon{
-    width:55px;
-    height:55px;
-    display:grid;
-    place-items:center;
-    border-radius:17px;
-    background:#24213f;
-    font-size:24px;
-}
-
-.infoGrow{
-    flex:1;
-}
-
-.infoGrow p{
-    color:#777f96;
-    font-size:10px;
-    font-weight:bold;
-    letter-spacing:2px;
-}
-
-.infoGrow h3{
-    margin-top:6px;
-    font-size:24px;
-}
-
-.edit{
-    padding:10px 14px;
-    border:0;
-    border-radius:12px;
-    color:#aaa0ff;
-    background:#292f45;
-    font-weight:bold;
-}
-
-/* ================= NAV ================= */
-
-.nav{
-    display:flex;
-    gap:10px;
-    margin:28px 0;
-}
-
-.nav button{
-    flex:1;
-    padding:14px;
-    border:1px solid #30364d;
-    border-radius:14px;
-    color:#9199af;
-    background:#111526;
-}
-
-.nav button.active{
-    color:#fff;
-    border-color:transparent;
-    background:linear-gradient(110deg,#7665ff,#4b9fff);
-}
-
-/* ================= PAGE ================= */
-
-.page{
-    display:none;
-}
-
-.page.active{
-    display:block;
-}
-
-.pageHead{
-    display:flex;
-    justify-content:space-between;
-    align-items:end;
-    gap:15px;
-}
-
-.pageHead h2{
-    margin-top:7px;
-    font-size:38px;
-}
-
-.pageHead p{
-    margin-top:7px;
-    color:#858da5;
-}
-
-.addButton{
-    padding:15px 20px;
-    border:0;
-    border-radius:14px;
-    color:#fff;
-    font-weight:bold;
-    background:linear-gradient(110deg,#7665ff,#4b9fff);
-}
-
-/* ================= FORM ================= */
-
-.formBox{
-    display:none;
-    margin-top:18px;
-    padding:23px;
-    border:1px solid #343b58;
-    border-radius:24px;
-    background:#111526;
-}
-
-.formBox.show{
-    display:block;
-}
-
-.formBox input,
-.formBox select{
-    width:100%;
-    height:53px;
-    margin-top:12px;
-    padding:0 15px;
-    border:1px solid #30364d;
-    border-radius:13px;
-    outline:none;
-    color:#fff;
-    background:#080b15;
-}
-
-.formActions{
-    display:flex;
-    gap:10px;
-    margin-top:13px;
-}
-
-.formActions button{
-    flex:1;
-    height:50px;
-    border:0;
-    border-radius:13px;
-    font-weight:bold;
-}
-
-.cancel{
-    color:#aaa;
-    background:#292f43;
-}
-
-.save{
-    color:#fff;
-    background:linear-gradient(110deg,#7665ff,#4b9fff);
-}
-
-.formError{
-    margin-top:8px;
-    color:#ff7180;
-    font-size:12px;
-}
-
-/* ================= EXPENSE CARDS ================= */
-
-.expenseList{
-    margin-top:18px;
-}
-
-.expenseCard{
-    display:flex;
-    align-items:center;
-    gap:14px;
-    margin-top:12px;
-    padding:17px;
-    border:1px solid #292f42;
-    border-radius:21px;
-    background:#111526;
-    transition:.2s;
-}
-
-.expenseCard:hover{
-    transform:translateY(-2px);
-    border-color:#5147a0;
-}
-
-.expenseIcon{
-    width:55px;
-    height:55px;
-    display:grid;
-    place-items:center;
-    flex-shrink:0;
-    border-radius:16px;
-    background:#24213f;
-    font-size:23px;
-}
-
-.expenseInfo{
-    flex:1;
-}
-
-.expenseInfo h3{
-    font-size:17px;
-}
-
-.expenseInfo p{
-    margin-top:5px;
-    color:#727b93;
-    font-size:11px;
-}
-
-.expenseAmount{
-    color:#ff7080;
-    font-weight:bold;
-}
-
-.delete{
-    width:37px;
-    height:37px;
-    border:0;
-    border-radius:10px;
-    color:#ff7180;
-    background:#302033;
-    font-size:20px;
-}
-
-.empty{
-    margin-top:18px;
-    padding:45px 20px;
-    border:1px dashed #30374d;
-    border-radius:22px;
-    text-align:center;
-    color:#777f95;
-}
-
-.empty strong{
-    display:block;
-    margin:10px 0 5px;
-    color:#fff;
-    font-size:18px;
-}
-
-/* ================= STATS PLACEHOLDER ================= */
-
-.statsBox{
-    padding:35px 25px;
-    border:1px solid #292f42;
-    border-radius:23px;
-    background:#111526;
-}
-
-.statsBox h2{
-    margin-top:8px;
-}
-
-.statsBox p{
-    margin-top:10px;
-    color:#858da5;
-    line-height:1.6;
-}
-
-/* ================= MOBILE ================= */
-
-@media(max-width:700px){
-
-    #app{
-        padding:20px 14px 50px;
-    }
-
-    .header{
-        min-height:210px;
-    }
-
-    .robot{
-        display:none;
-    }
-
-    .header h1{
-        font-size:52px;
-    }
-
-    .infoGrid{
-        grid-template-columns:1fr;
-    }
-
-    .pageHead{
-        align-items:stretch;
-        flex-direction:column;
-    }
-
-    .addButton{
-        width:100%;
-    }
-
-    .expenseCard{
-        padding:13px;
-    }
-
-    .expenseAmount{
-        font-size:13px;
-    }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finance Manager</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<!-- ================= PASSWORD ================= -->
-
+<!-- LOCK SCREEN -->
 <div id="lockScreen">
+  <div class="lockBox">
+    <div class="lockIcon">🔐</div>
+    <div class="smallText">PRIVATE FINANCE</div>
+    <h1>FINANCE<br><span>MANAGER</span></h1>
+    <p>Enter your password to continue</p>
 
-    <div class="lockBox">
+    <input id="passwordInput" type="password" placeholder="Enter password">
 
-        <div class="lockIcon">
-            🔐
-        </div>
+    <button id="unlockBtn">UNLOCK →</button>
 
-        <h1>
-            FINANCE <span>MANAGER</span>
-        </h1>
+    <div id="passwordError"></div>
+  </div>
+</div>
 
-        <p>
-            Your money. Your control.
-        </p>
 
-        <input
-            id="password"
-            type="password"
-            placeholder="Enter password"
-        >
+<!-- MAIN APP -->
+<div id="app">
 
-        <button
-            class="unlock"
-            onclick="unlock()"
-        >
-            UNLOCK →
-        </button>
+  <!-- HEADER -->
+  <header>
+    <div>
+      <div class="smallText">WELCOME BACK</div>
 
-        <p id="error"></p>
+      <h1 class="mainTitle">
+        FINANCE<br>
+        <span>MANAGER</span>
+      </h1>
+
+      <p class="subtitle">Take control of your money.</p>
+    </div>
+
+    <div class="robot">
+      <div class="antenna"></div>
+      <div class="head">
+        <div class="eye e1"></div>
+        <div class="eye e2"></div>
+        <div class="mouth"></div>
+      </div>
+
+      <div class="bodyRobot">
+        <div>₹</div>
+        <span></span>
+      </div>
+
+      <div class="arm a1"></div>
+      <div class="arm a2"></div>
+    </div>
+  </header>
+
+
+  <!-- BALANCE -->
+  <section class="balanceCard">
+    <div class="balanceTop">
+      <div>
+        <div class="smallText">TOTAL BALANCE</div>
+        <div class="available">● Available</div>
+      </div>
+
+      <div class="rupeeBox">₹</div>
+    </div>
+
+    <div id="balance">₹0</div>
+    <p>Your available money</p>
+  </section>
+
+
+  <!-- SALARY -->
+  <section class="salaryCard">
+    <div class="salaryIcon">💼</div>
+
+    <div class="salaryInfo">
+      <div class="smallText">SALARY PER MONTH</div>
+      <h2 id="salary">₹0</h2>
+    </div>
+
+    <button id="salaryBtn">+ ADD</button>
+  </section>
+
+
+  <!-- NAVIGATION -->
+  <nav class="nav">
+    <button class="navBtn active" data-page="dashboard">🏠 Dashboard</button>
+    <button class="navBtn" data-page="expenses">💸 Expenses</button>
+    <button class="navBtn" data-page="stats">📊 Stats</button>
+  </nav>
+
+
+  <!-- DASHBOARD -->
+  <main id="dashboard" class="page activePage">
+
+    <div class="smallText">OVERVIEW</div>
+    <h2 class="pageTitle">Your Money<br>Stay in control 💪</h2>
+    <p class="pageDescription">
+      Track your spending and manage your money.
+    </p>
+
+    <section class="notesCard">
+      <div class="smallText">QUICK NOTES</div>
+
+      <textarea id="notes"
+        placeholder="Write something about your money..."></textarea>
+
+      <button id="saveNotes">SAVE NOTES</button>
+    </section>
+
+  </main>
+
+
+  <!-- EXPENSES -->
+  <main id="expenses" class="page">
+
+    <div class="sectionHeader">
+      <div>
+        <div class="smallText">MONEY TRACKER</div>
+        <h2 class="pageTitle">Expenses</h2>
+      </div>
+
+      <button id="addExpenseBtn" class="addBtn">
+        <span>+</span> ADD EXPENSE
+      </button>
+    </div>
+
+
+    <!-- EXPENSE FORM -->
+    <div id="expenseForm" class="expenseForm">
+
+      <div class="formTitle">ADD NEW EXPENSE</div>
+
+      <input
+        id="expenseTitle"
+        type="text"
+        placeholder="Expense title e.g. Food"
+      >
+
+      <input
+        id="expenseAmount"
+        type="number"
+        placeholder="Amount spent"
+        min="1"
+      >
+
+      <div class="formButtons">
+        <button id="cancelExpense">CANCEL</button>
+        <button id="saveExpense">SAVE EXPENSE</button>
+      </div>
+
+      <div id="expenseError"></div>
+    </div>
+
+
+    <!-- EXPENSE LIST -->
+    <div id="expenseList"></div>
+
+  </main>
+
+
+  <!-- STATS -->
+  <main id="stats" class="page">
+
+    <div class="smallText">ANALYTICS</div>
+    <h2 class="pageTitle">Weekly Stats</h2>
+
+    <div class="statsCard">
+
+      <h2>Spending This Week</h2>
+
+      <div class="chart" id="chart"></div>
 
     </div>
 
-</div>
 
+    <div class="tipCard">
+      <div class="tipIcon">💡</div>
 
-<!-- ================= APP ================= -->
+      <div>
+        <div class="smallText">MONEY TIP</div>
 
-<div id="app">
+        <h3 id="tipTitle">Smart spending</h3>
 
-    <!-- HEADER -->
+        <p id="tipText">
+          Add some expenses to get personalized spending tips.
+        </p>
+      </div>
+    </div>
 
-    <section class="header">
-
-        <div>
-
-            <div class="eyebrow">
-                SMART MONEY CONTROL
-            </div>
-
-            <h1>
-                FINANCE <span>MANAGER</span>
-            </h1>
-
-            <div class="subtitle">
-                Take control of your money.
-            </div>
-
-        </div>
-
-
-        <div class="robot">
-
-            <div class="robotHead">
-
-                <div class="eye eye1"></div>
-                <div class="eye eye2"></div>
-                <div class="mouth"></div>
-
-            </div>
-
-            <div class="robotBody">
-                ₹
-            </div>
-
-            <div class="arm arm1"></div>
-            <div class="arm arm2"></div>
-
-        </div>
-
-    </section>
-
-
-    <!-- BALANCE -->
-
-    <section class="balance">
-
-        <div class="balanceTop">
-
-            <div>
-
-                <div
-                    class="eyebrow"
-                    style="color:#ffffffaa"
-                >
-                    TOTAL BALANCE
-                </div>
-
-                <small>
-                    ● Available money
-                </small>
-
-            </div>
-
-            <div class="balanceIcon">
-                ₹
-            </div>
-
-        </div>
-
-        <h2 id="balanceAmount">
-            ₹0
-        </h2>
-
-        <small id="balanceText">
-            Available after expenses.
-        </small>
-
-    </section>
-
-
-    <!-- INFO -->
-
-    <section class="infoGrid">
-
-        <div class="infoCard">
-
-            <div class="infoIcon">
-                💼
-            </div>
-
-            <div class="infoGrow">
-
-                <p>
-                    MONTHLY INCOME
-                </p>
-
-                <h3 id="incomeAmount">
-                    ₹0
-                </h3>
-
-            </div>
-
-            <button
-                class="edit"
-                onclick="setIncome()"
-            >
-                EDIT
-            </button>
-
-        </div>
-
-
-        <div class="infoCard">
-
-            <div class="infoIcon">
-                💸
-            </div>
-
-            <div class="infoGrow">
-
-                <p>
-                    TOTAL EXPENSES
-                </p>
-
-                <h3 id="expenseTotal">
-                    ₹0
-                </h3>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- NAV -->
-
-    <nav class="nav">
-
-        <button
-            class="active"
-            onclick="showPage('home',this)"
-        >
-            🏠 Home
-        </button>
-
-        <button
-            onclick="showPage('expenses',this)"
-        >
-            💸 Expenses
-        </button>
-
-        <button
-            onclick="showPage('stats',this)"
-        >
-            📊 Stats
-        </button>
-
-    </nav>
-
-
-    <!-- ================= HOME ================= -->
-
-    <section
-        id="home"
-        class="page active"
-    >
-
-        <div class="pageHead">
-
-            <div>
-
-                <div class="eyebrow">
-                    DASHBOARD
-                </div>
-
-                <h2>
-                    Recent Expenses
-                </h2>
-
-                <p>
-                    Your latest transactions appear here.
-                </p>
-
-            </div>
-
-            <button
-                class="addButton"
-                onclick="openExpenseForm()"
-            >
-                + ADD EXPENSE
-            </button>
-
-        </div>
-
-
-        <div
-            id="recentExpenses"
-            class="expenseList"
-        ></div>
-
-    </section>
-
-
-    <!-- ================= EXPENSES ================= -->
-
-    <section
-        id="expenses"
-        class="page"
-    >
-
-        <div class="pageHead">
-
-            <div>
-
-                <div class="eyebrow">
-                    MONEY TRACKER
-                </div>
-
-                <h2>
-                    Expenses
-                </h2>
-
-                <p>
-                    Track every rupee you spend.
-                </p>
-
-            </div>
-
-            <button
-                class="addButton"
-                onclick="openExpenseForm()"
-            >
-                + ADD EXPENSE
-            </button>
-
-        </div>
-
-
-        <!-- FORM -->
-
-        <div
-            id="expenseForm"
-            class="formBox"
-        >
-
-            <div class="eyebrow">
-                NEW EXPENSE
-            </div>
-
-            <h3 style="margin-top:7px">
-                Add your spending
-            </h3>
-
-
-            <input
-                id="expenseTitle"
-                type="text"
-                placeholder="What did you spend on?"
-            >
-
-
-            <input
-                id="expenseAmount"
-                type="number"
-                min="1"
-                placeholder="Amount spent"
-            >
-
-
-            <select id="expenseCategory">
-
-                <option value="Food">
-                    🍔 Food
-                </option>
-
-                <option value="Shopping">
-                    🛍️ Shopping
-                </option>
-
-                <option value="Travel">
-                    🚗 Travel
-                </option>
-
-                <option value="Education">
-                    📚 Education
-                </option>
-
-                <option value="Sports">
-                    ⚽ Sports
-                </option>
-
-                <option value="Entertainment">
-                    🎮 Entertainment
-                </option>
-
-                <option value="Bills">
-                    📄 Bills
-                </option>
-
-                <option value="Other">
-                    💰 Other
-                </option>
-
-            </select>
-
-
-            <div class="formActions">
-
-                <button
-                    class="cancel"
-                    onclick="closeExpenseForm()"
-                >
-                    CANCEL
-                </button>
-
-                <button
-                    class="save"
-                    onclick="saveExpense()"
-                >
-                    SAVE EXPENSE
-                </button>
-
-            </div>
-
-
-            <div
-                id="formError"
-                class="formError"
-            ></div>
-
-        </div>
-
-
-        <div
-            id="allExpenses"
-            class="expenseList"
-        ></div>
-
-    </section>
-
-
-    <!-- ================= STATS ================= -->
-
-    <section
-        id="stats"
-        class="page"
-    >
-
-        <div class="statsBox">
-
-            <div class="eyebrow">
-                ANALYTICS
-            </div>
-
-            <h2>
-                Weekly Stats
-            </h2>
-
-            <p>
-                📊 The full statistics dashboard,
-                weekly bar graph, category analysis
-                and smart finance tips will be added
-                in the next part.
-            </p>
-
-        </div>
-
-    </section>
+  </main>
 
 </div>
 
-
-<script>
-
-/* =====================================================
-   SETTINGS
-===================================================== */
-
-const PASSWORD = "1234";
-
-
-/* =====================================================
-   DATA
-===================================================== */
-
-let income =
-    Number(
-        localStorage.getItem(
-            "finance_income"
-        )
-    ) || 0;
-
-
-let expenses =
-    JSON.parse(
-        localStorage.getItem(
-            "finance_expenses"
-        ) || "[]"
-    );
-
-
-/* =====================================================
-   PASSWORD
-===================================================== */
-
-function unlock(){
-
-    const entered =
-        document
-        .getElementById("password")
-        .value
-        .trim();
-
-    if(entered === PASSWORD){
-
-        document
-        .getElementById("lockScreen")
-        .classList.add("hidden");
-
-        document
-        .getElementById("app")
-        .style.display = "block";
-
-        updateEverything();
-
-    }else{
-
-        document
-        .getElementById("error")
-        .textContent =
-        "Incorrect password.";
-
-    }
-
-}
-
-
-document
-.getElementById("password")
-.addEventListener(
-    "keydown",
-    function(event){
-
-        if(event.key === "Enter"){
-            unlock();
-        }
-
-    }
-);
-
-
-/* =====================================================
-   PAGE NAVIGATION
-===================================================== */
-
-function showPage(
-    pageName,
-    button
-){
-
-    document
-    .querySelectorAll(".page")
-    .forEach(
-        function(page){
-            page.classList.remove("active");
-        }
-    );
-
-
-    document
-    .getElementById(pageName)
-    .classList.add("active");
-
-
-    document
-    .querySelectorAll(".nav button")
-    .forEach(
-        function(btn){
-            btn.classList.remove("active");
-        }
-    );
-
-
-    button.classList.add("active");
-
-}
-
-
-/* =====================================================
-   INCOME
-===================================================== */
-
-function setIncome(){
-
-    const value =
-        prompt(
-            "Enter your monthly income:"
-        );
-
-
-    if(value === null){
-        return;
-    }
-
-
-    const amount =
-        Number(value);
-
-
-    if(
-        !Number.isFinite(amount) ||
-        amount < 0
-    ){
-
-        alert(
-            "Please enter a valid amount."
-        );
-
-        return;
-
-    }
-
-
-    income = amount;
-
-
-    localStorage.setItem(
-        "finance_income",
-        income
-    );
-
-
-    updateEverything();
-
-}
-
-
-/* =====================================================
-   TOTAL EXPENSE
-===================================================== */
-
-function getTotalExpenses(){
-
-    return expenses.reduce(
-        function(total,expense){
-
-            return total +
-                Number(expense.amount);
-
-        },
-        0
-    );
-
-}
-
-
-/* =====================================================
-   BALANCE
-===================================================== */
-
-function getBalance(){
-
-    return income -
-        getTotalExpenses();
-
-}
-
-
-/* =====================================================
-   OPEN FORM
-===================================================== */
-
-function openExpenseForm(){
-
-    showPage(
-        "expenses",
-        document.querySelectorAll(
-            ".nav button"
-        )[1]
-    );
-
-
-    document
-    .getElementById("expenseForm")
-    .classList.add("show");
-
-
-    setTimeout(
-        function(){
-
-            document
-            .getElementById("expenseTitle")
-            .focus();
-
-        },
-        100
-    );
-
-}
-
-
-/* =====================================================
-   CLOSE FORM
-===================================================== */
-
-function closeExpenseForm(){
-
-    document
-    .getElementById("expenseForm")
-    .classList.remove("show");
-
-
-    document
-    .getElementById("expenseTitle")
-    .value = "";
-
-
-    document
-    .getElementById("expenseAmount")
-    .value = "";
-
-
-    document
-    .getElementById("formError")
-    .textContent = "";
-
-}
-
-
-/* =====================================================
-   SAVE EXPENSE
-===================================================== */
-
-function saveExpense(){
-
-    const title =
-        document
-        .getElementById("expenseTitle")
-        .value
-        .trim();
-
-
-    const amount =
-        Number(
-            document
-            .getElementById("expenseAmount")
-            .value
-        );
-
-
-    const category =
-        document
-        .getElementById("expenseCategory")
-        .value;
-
-
-    const error =
-        document
-        .getElementById("formError");
-
-
-    if(title === ""){
-
-        error.textContent =
-        "Please enter an expense title.";
-
-        return;
-
-    }
-
-
-    if(
-        !Number.isFinite(amount) ||
-        amount <= 0
-    ){
-
-        error.textContent =
-        "Please enter a valid amount.";
-
-        return;
-
-    }
-
-
-    const expense = {
-
-        id:
-            Date.now(),
-
-        title:
-            title,
-
-        amount:
-            amount,
-
-        category:
-            category,
-
-        date:
-            new Date().toISOString()
-
-    };
-
-
-    expenses.unshift(
-        expense
-    );
-
-
-    localStorage.setItem(
-        "finance_expenses",
-        JSON.stringify(expenses)
-    );
-
-
-    closeExpenseForm();
-
-    updateEverything();
-
-}
-
-
-/* =====================================================
-   DELETE EXPENSE
-===================================================== */
-
-function deleteExpense(id){
-
-    const confirmDelete =
-        confirm(
-            "Delete this expense?"
-        );
-
-
-    if(!confirmDelete){
-        return;
-    }
-
-
-    expenses =
-        expenses.filter(
-            function(expense){
-
-                return expense.id !== id;
-
-            }
-        );
-
-
-    localStorage.setItem(
-        "finance_expenses",
-        JSON.stringify(expenses)
-    );
-
-
-    updateEverything();
-
-}
-
-
-/* =====================================================
-   CATEGORY ICON
-===================================================== */
-
-function getIcon(category){
-
-    const icons = {
-
-        Food:"🍔",
-
-        Shopping:"🛍️",
-
-        Travel:"🚗",
-
-        Education:"📚",
-
-        Sports:"⚽",
-
-        Entertainment:"🎮",
-
-        Bills:"📄",
-
-        Other:"💰"
-
-    };
-
-
-    return icons[category] || "💰";
-
-}
-
-
-/* =====================================================
-   CREATE CARD
-===================================================== */
-
-function createExpenseCard(
-    expense,
-    allowDelete
-){
-
-    const card =
-        document.createElement("div");
-
-
-    card.className =
-        "expenseCard";
-
-
-    const icon =
-        getIcon(
-            expense.category
-        );
-
-
-    const date =
-        new Date(
-            expense.date
-        ).toLocaleDateString(
-            "en-IN",
-            {
-                day:"numeric",
-                month:"short",
-                year:"numeric"
-            }
-        );
-
-
-    card.innerHTML = `
-
-        <div class="expenseIcon">
-            ${icon}
-        </div>
-
-        <div class="expenseInfo">
-
-            <h3>
-                ${escapeHTML(expense.title)}
-            </h3>
-
-            <p>
-                ${expense.category}
-                •
-                ${date}
-            </p>
-
-        </div>
-
-        <div class="expenseAmount">
-            -₹${Number(expense.amount).toLocaleString("en-IN")}
-        </div>
-
-        ${
-            allowDelete
-            ?
-            `
-            <button
-                class="delete"
-                onclick="deleteExpense(${expense.id})"
-            >
-                ×
-            </button>
-            `
-            :
-            ""
-        }
-
-    `;
-
-
-    return card;
-
-}
-
-
-/* =====================================================
-   SECURITY HELPER
-===================================================== */
-
-function escapeHTML(text){
-
-    const div =
-        document.createElement("div");
-
-    div.textContent =
-        text;
-
-    return div.innerHTML;
-
-}
-
-
-/* =====================================================
-   RENDER EXPENSES
-===================================================== */
-
-function renderExpenses(){
-
-    const all =
-        document
-        .getElementById("allExpenses");
-
-
-    const recent =
-        document
-        .getElementById("recentExpenses");
-
-
-    all.innerHTML = "";
-
-    recent.innerHTML = "";
-
-
-    if(expenses.length === 0){
-
-        const empty =
-            document.createElement("div");
-
-
-        empty.className =
-            "empty";
-
-
-        empty.innerHTML = `
-
-            <div style="font-size:40px">
-                💸
-            </div>
-
-            <strong>
-                No expenses yet
-            </strong>
-
-            Tap
-            <b>+ ADD EXPENSE</b>
-            to add your first transaction.
-
-        `;
-
-
-        all.appendChild(empty);
-
-        recent.appendChild(
-            empty.cloneNode(true)
-        );
-
-        return;
-
-    }
-
-
-    expenses.forEach(
-        function(expense){
-
-            all.appendChild(
-                createExpenseCard(
-                    expense,
-                    true
-                )
-            );
-
-        }
-    );
-
-
-    expenses
-    .slice(0,3)
-    .forEach(
-        function(expense){
-
-            recent.appendChild(
-                createExpenseCard(
-                    expense,
-                    false
-                )
-            );
-
-        }
-    );
-
-}
-
-
-/* =====================================================
-   UPDATE EVERYTHING
-===================================================== */
-
-function updateEverything(){
-
-    const total =
-        getTotalExpenses();
-
-
-    const currentBalance =
-        getBalance();
-
-
-    document
-    .getElementById("incomeAmount")
-    .textContent =
-        "₹" +
-        income.toLocaleString(
-            "en-IN"
-        );
-
-
-    document
-    .getElementById("expenseTotal")
-    .textContent =
-        "₹" +
-        total.toLocaleString(
-            "en-IN"
-        );
-
-
-    document
-    .getElementById("balanceAmount")
-    .textContent =
-        "₹" +
-        currentBalance.toLocaleString(
-            "en-IN"
-        );
-
-
-    document
-    .getElementById("balanceText")
-    .textContent =
-        currentBalance < 0
-        ?
-        "⚠️ Expenses are above income."
-        :
-        "● Available after expenses.";
-
-
-    renderExpenses();
-
-}
-
-
-/* =====================================================
-   INITIAL DATA
-===================================================== */
-
-updateEverything();
-
-</script>
+<script src="script.js"></script>
 
 </body>
 </html>
