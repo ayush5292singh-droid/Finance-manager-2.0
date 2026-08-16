@@ -19,7 +19,7 @@ body{
     min-height:100vh;
 }
 
-button,input{
+button,input,select{
     font:inherit;
 }
 
@@ -27,18 +27,22 @@ button{
     cursor:pointer;
 }
 
+.hidden{
+    display:none!important;
+}
+
 /* ================= LOCK ================= */
 
 #lockScreen{
     position:fixed;
     inset:0;
-    z-index:100;
+    z-index:999;
     display:flex;
     justify-content:center;
     align-items:center;
     padding:20px;
     background:
-        radial-gradient(circle at 20% 10%,#5544b5,#070914 55%);
+    radial-gradient(circle at 20% 10%,#5544b5,#070914 55%);
 }
 
 .lockBox{
@@ -289,7 +293,7 @@ button{
     color:#ffffffaa;
 }
 
-/* ================= INFO CARDS ================= */
+/* ================= INFO ================= */
 
 .infoGrid{
     display:grid;
@@ -366,21 +370,193 @@ button{
     background:linear-gradient(110deg,#7665ff,#4b9fff);
 }
 
-/* ================= MESSAGE ================= */
+/* ================= PAGE ================= */
 
-.welcome{
-    padding:25px;
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+.pageHead{
+    display:flex;
+    justify-content:space-between;
+    align-items:end;
+    gap:15px;
+}
+
+.pageHead h2{
+    margin-top:7px;
+    font-size:38px;
+}
+
+.pageHead p{
+    margin-top:7px;
+    color:#858da5;
+}
+
+.addButton{
+    padding:15px 20px;
+    border:0;
+    border-radius:14px;
+    color:#fff;
+    font-weight:bold;
+    background:linear-gradient(110deg,#7665ff,#4b9fff);
+}
+
+/* ================= FORM ================= */
+
+.formBox{
+    display:none;
+    margin-top:18px;
+    padding:23px;
+    border:1px solid #343b58;
+    border-radius:24px;
+    background:#111526;
+}
+
+.formBox.show{
+    display:block;
+}
+
+.formBox input,
+.formBox select{
+    width:100%;
+    height:53px;
+    margin-top:12px;
+    padding:0 15px;
+    border:1px solid #30364d;
+    border-radius:13px;
+    outline:none;
+    color:#fff;
+    background:#080b15;
+}
+
+.formActions{
+    display:flex;
+    gap:10px;
+    margin-top:13px;
+}
+
+.formActions button{
+    flex:1;
+    height:50px;
+    border:0;
+    border-radius:13px;
+    font-weight:bold;
+}
+
+.cancel{
+    color:#aaa;
+    background:#292f43;
+}
+
+.save{
+    color:#fff;
+    background:linear-gradient(110deg,#7665ff,#4b9fff);
+}
+
+.formError{
+    margin-top:8px;
+    color:#ff7180;
+    font-size:12px;
+}
+
+/* ================= EXPENSE CARDS ================= */
+
+.expenseList{
+    margin-top:18px;
+}
+
+.expenseCard{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    margin-top:12px;
+    padding:17px;
+    border:1px solid #292f42;
+    border-radius:21px;
+    background:#111526;
+    transition:.2s;
+}
+
+.expenseCard:hover{
+    transform:translateY(-2px);
+    border-color:#5147a0;
+}
+
+.expenseIcon{
+    width:55px;
+    height:55px;
+    display:grid;
+    place-items:center;
+    flex-shrink:0;
+    border-radius:16px;
+    background:#24213f;
+    font-size:23px;
+}
+
+.expenseInfo{
+    flex:1;
+}
+
+.expenseInfo h3{
+    font-size:17px;
+}
+
+.expenseInfo p{
+    margin-top:5px;
+    color:#727b93;
+    font-size:11px;
+}
+
+.expenseAmount{
+    color:#ff7080;
+    font-weight:bold;
+}
+
+.delete{
+    width:37px;
+    height:37px;
+    border:0;
+    border-radius:10px;
+    color:#ff7180;
+    background:#302033;
+    font-size:20px;
+}
+
+.empty{
+    margin-top:18px;
+    padding:45px 20px;
+    border:1px dashed #30374d;
+    border-radius:22px;
+    text-align:center;
+    color:#777f95;
+}
+
+.empty strong{
+    display:block;
+    margin:10px 0 5px;
+    color:#fff;
+    font-size:18px;
+}
+
+/* ================= STATS PLACEHOLDER ================= */
+
+.statsBox{
+    padding:35px 25px;
     border:1px solid #292f42;
     border-radius:23px;
     background:#111526;
 }
 
-.welcome h2{
-    margin-top:7px;
-    font-size:27px;
+.statsBox h2{
+    margin-top:8px;
 }
 
-.welcome p{
+.statsBox p{
     margin-top:10px;
     color:#858da5;
     line-height:1.6;
@@ -410,7 +586,20 @@ button{
         grid-template-columns:1fr;
     }
 
-    .nav button{
+    .pageHead{
+        align-items:stretch;
+        flex-direction:column;
+    }
+
+    .addButton{
+        width:100%;
+    }
+
+    .expenseCard{
+        padding:13px;
+    }
+
+    .expenseAmount{
         font-size:13px;
     }
 }
@@ -419,7 +608,7 @@ button{
 
 <body>
 
-<!-- ================= PASSWORD SCREEN ================= -->
+<!-- ================= PASSWORD ================= -->
 
 <div id="lockScreen">
 
@@ -457,7 +646,7 @@ button{
 </div>
 
 
-<!-- ================= MAIN APP ================= -->
+<!-- ================= APP ================= -->
 
 <div id="app">
 
@@ -482,16 +671,12 @@ button{
         </div>
 
 
-        <!-- ROBOT -->
-
         <div class="robot">
 
             <div class="robotHead">
 
                 <div class="eye eye1"></div>
-
                 <div class="eye eye2"></div>
-
                 <div class="mouth"></div>
 
             </div>
@@ -501,7 +686,6 @@ button{
             </div>
 
             <div class="arm arm1"></div>
-
             <div class="arm arm2"></div>
 
         </div>
@@ -540,14 +724,14 @@ button{
             ₹0
         </h2>
 
-        <small>
-            Set your monthly income to begin.
+        <small id="balanceText">
+            Available after expenses.
         </small>
 
     </section>
 
 
-    <!-- INCOME / EXPENSE -->
+    <!-- INFO -->
 
     <section class="infoGrid">
 
@@ -591,7 +775,7 @@ button{
                     TOTAL EXPENSES
                 </p>
 
-                <h3>
+                <h3 id="expenseTotal">
                     ₹0
                 </h3>
 
@@ -602,25 +786,25 @@ button{
     </section>
 
 
-    <!-- NAVIGATION -->
+    <!-- NAV -->
 
     <nav class="nav">
 
         <button
             class="active"
-            onclick="changePage(this)"
+            onclick="showPage('home',this)"
         >
             🏠 Home
         </button>
 
         <button
-            onclick="changePage(this)"
+            onclick="showPage('expenses',this)"
         >
             💸 Expenses
         </button>
 
         <button
-            onclick="changePage(this)"
+            onclick="showPage('stats',this)"
         >
             📊 Stats
         </button>
@@ -628,25 +812,212 @@ button{
     </nav>
 
 
-    <!-- WELCOME -->
+    <!-- ================= HOME ================= -->
 
-    <section class="welcome">
+    <section
+        id="home"
+        class="page active"
+    >
 
-        <div class="eyebrow">
-            FINANCE ASSISTANT
+        <div class="pageHead">
+
+            <div>
+
+                <div class="eyebrow">
+                    DASHBOARD
+                </div>
+
+                <h2>
+                    Recent Expenses
+                </h2>
+
+                <p>
+                    Your latest transactions appear here.
+                </p>
+
+            </div>
+
+            <button
+                class="addButton"
+                onclick="openExpenseForm()"
+            >
+                + ADD EXPENSE
+            </button>
+
         </div>
 
-        <h2>
-            Welcome to your money dashboard 👋
-        </h2>
 
-        <p>
-            Your complete financial control center
-            starts here. In the next parts we will
-            add expenses, automatic balance deduction,
-            receipt scanning, statistics, budgets,
-            goals and the smart finance coach.
-        </p>
+        <div
+            id="recentExpenses"
+            class="expenseList"
+        ></div>
+
+    </section>
+
+
+    <!-- ================= EXPENSES ================= -->
+
+    <section
+        id="expenses"
+        class="page"
+    >
+
+        <div class="pageHead">
+
+            <div>
+
+                <div class="eyebrow">
+                    MONEY TRACKER
+                </div>
+
+                <h2>
+                    Expenses
+                </h2>
+
+                <p>
+                    Track every rupee you spend.
+                </p>
+
+            </div>
+
+            <button
+                class="addButton"
+                onclick="openExpenseForm()"
+            >
+                + ADD EXPENSE
+            </button>
+
+        </div>
+
+
+        <!-- FORM -->
+
+        <div
+            id="expenseForm"
+            class="formBox"
+        >
+
+            <div class="eyebrow">
+                NEW EXPENSE
+            </div>
+
+            <h3 style="margin-top:7px">
+                Add your spending
+            </h3>
+
+
+            <input
+                id="expenseTitle"
+                type="text"
+                placeholder="What did you spend on?"
+            >
+
+
+            <input
+                id="expenseAmount"
+                type="number"
+                min="1"
+                placeholder="Amount spent"
+            >
+
+
+            <select id="expenseCategory">
+
+                <option value="Food">
+                    🍔 Food
+                </option>
+
+                <option value="Shopping">
+                    🛍️ Shopping
+                </option>
+
+                <option value="Travel">
+                    🚗 Travel
+                </option>
+
+                <option value="Education">
+                    📚 Education
+                </option>
+
+                <option value="Sports">
+                    ⚽ Sports
+                </option>
+
+                <option value="Entertainment">
+                    🎮 Entertainment
+                </option>
+
+                <option value="Bills">
+                    📄 Bills
+                </option>
+
+                <option value="Other">
+                    💰 Other
+                </option>
+
+            </select>
+
+
+            <div class="formActions">
+
+                <button
+                    class="cancel"
+                    onclick="closeExpenseForm()"
+                >
+                    CANCEL
+                </button>
+
+                <button
+                    class="save"
+                    onclick="saveExpense()"
+                >
+                    SAVE EXPENSE
+                </button>
+
+            </div>
+
+
+            <div
+                id="formError"
+                class="formError"
+            ></div>
+
+        </div>
+
+
+        <div
+            id="allExpenses"
+            class="expenseList"
+        ></div>
+
+    </section>
+
+
+    <!-- ================= STATS ================= -->
+
+    <section
+        id="stats"
+        class="page"
+    >
+
+        <div class="statsBox">
+
+            <div class="eyebrow">
+                ANALYTICS
+            </div>
+
+            <h2>
+                Weekly Stats
+            </h2>
+
+            <p>
+                📊 The full statistics dashboard,
+                weekly bar graph, category analysis
+                and smart finance tips will be added
+                in the next part.
+            </p>
+
+        </div>
 
     </section>
 
@@ -655,12 +1026,16 @@ button{
 
 <script>
 
-/* ================= SETTINGS ================= */
+/* =====================================================
+   SETTINGS
+===================================================== */
 
 const PASSWORD = "1234";
 
 
-/* ================= DATA ================= */
+/* =====================================================
+   DATA
+===================================================== */
 
 let income =
     Number(
@@ -670,30 +1045,39 @@ let income =
     ) || 0;
 
 
-/* ================= UNLOCK ================= */
+let expenses =
+    JSON.parse(
+        localStorage.getItem(
+            "finance_expenses"
+        ) || "[]"
+    );
+
+
+/* =====================================================
+   PASSWORD
+===================================================== */
 
 function unlock(){
 
     const entered =
         document
         .getElementById("password")
-        .value;
+        .value
+        .trim();
 
     if(entered === PASSWORD){
 
         document
         .getElementById("lockScreen")
-        .style.display = "none";
+        .classList.add("hidden");
 
         document
         .getElementById("app")
         .style.display = "block";
 
-        updateIncome();
+        updateEverything();
 
-    }
-
-    else{
+    }else{
 
         document
         .getElementById("error")
@@ -704,8 +1088,6 @@ function unlock(){
 
 }
 
-
-/* ENTER KEY */
 
 document
 .getElementById("password")
@@ -721,7 +1103,46 @@ document
 );
 
 
-/* ================= INCOME ================= */
+/* =====================================================
+   PAGE NAVIGATION
+===================================================== */
+
+function showPage(
+    pageName,
+    button
+){
+
+    document
+    .querySelectorAll(".page")
+    .forEach(
+        function(page){
+            page.classList.remove("active");
+        }
+    );
+
+
+    document
+    .getElementById(pageName)
+    .classList.add("active");
+
+
+    document
+    .querySelectorAll(".nav button")
+    .forEach(
+        function(btn){
+            btn.classList.remove("active");
+        }
+    );
+
+
+    button.classList.add("active");
+
+}
+
+
+/* =====================================================
+   INCOME
+===================================================== */
 
 function setIncome(){
 
@@ -730,12 +1151,15 @@ function setIncome(){
             "Enter your monthly income:"
         );
 
+
     if(value === null){
         return;
     }
 
+
     const amount =
         Number(value);
+
 
     if(
         !Number.isFinite(amount) ||
@@ -750,56 +1174,528 @@ function setIncome(){
 
     }
 
+
     income = amount;
+
 
     localStorage.setItem(
         "finance_income",
         income
     );
 
-    updateIncome();
+
+    updateEverything();
 
 }
 
 
-/* ================= UPDATE ================= */
+/* =====================================================
+   TOTAL EXPENSE
+===================================================== */
 
-function updateIncome(){
+function getTotalExpenses(){
+
+    return expenses.reduce(
+        function(total,expense){
+
+            return total +
+                Number(expense.amount);
+
+        },
+        0
+    );
+
+}
+
+
+/* =====================================================
+   BALANCE
+===================================================== */
+
+function getBalance(){
+
+    return income -
+        getTotalExpenses();
+
+}
+
+
+/* =====================================================
+   OPEN FORM
+===================================================== */
+
+function openExpenseForm(){
+
+    showPage(
+        "expenses",
+        document.querySelectorAll(
+            ".nav button"
+        )[1]
+    );
+
+
+    document
+    .getElementById("expenseForm")
+    .classList.add("show");
+
+
+    setTimeout(
+        function(){
+
+            document
+            .getElementById("expenseTitle")
+            .focus();
+
+        },
+        100
+    );
+
+}
+
+
+/* =====================================================
+   CLOSE FORM
+===================================================== */
+
+function closeExpenseForm(){
+
+    document
+    .getElementById("expenseForm")
+    .classList.remove("show");
+
+
+    document
+    .getElementById("expenseTitle")
+    .value = "";
+
+
+    document
+    .getElementById("expenseAmount")
+    .value = "";
+
+
+    document
+    .getElementById("formError")
+    .textContent = "";
+
+}
+
+
+/* =====================================================
+   SAVE EXPENSE
+===================================================== */
+
+function saveExpense(){
+
+    const title =
+        document
+        .getElementById("expenseTitle")
+        .value
+        .trim();
+
+
+    const amount =
+        Number(
+            document
+            .getElementById("expenseAmount")
+            .value
+        );
+
+
+    const category =
+        document
+        .getElementById("expenseCategory")
+        .value;
+
+
+    const error =
+        document
+        .getElementById("formError");
+
+
+    if(title === ""){
+
+        error.textContent =
+        "Please enter an expense title.";
+
+        return;
+
+    }
+
+
+    if(
+        !Number.isFinite(amount) ||
+        amount <= 0
+    ){
+
+        error.textContent =
+        "Please enter a valid amount.";
+
+        return;
+
+    }
+
+
+    const expense = {
+
+        id:
+            Date.now(),
+
+        title:
+            title,
+
+        amount:
+            amount,
+
+        category:
+            category,
+
+        date:
+            new Date().toISOString()
+
+    };
+
+
+    expenses.unshift(
+        expense
+    );
+
+
+    localStorage.setItem(
+        "finance_expenses",
+        JSON.stringify(expenses)
+    );
+
+
+    closeExpenseForm();
+
+    updateEverything();
+
+}
+
+
+/* =====================================================
+   DELETE EXPENSE
+===================================================== */
+
+function deleteExpense(id){
+
+    const confirmDelete =
+        confirm(
+            "Delete this expense?"
+        );
+
+
+    if(!confirmDelete){
+        return;
+    }
+
+
+    expenses =
+        expenses.filter(
+            function(expense){
+
+                return expense.id !== id;
+
+            }
+        );
+
+
+    localStorage.setItem(
+        "finance_expenses",
+        JSON.stringify(expenses)
+    );
+
+
+    updateEverything();
+
+}
+
+
+/* =====================================================
+   CATEGORY ICON
+===================================================== */
+
+function getIcon(category){
+
+    const icons = {
+
+        Food:"🍔",
+
+        Shopping:"🛍️",
+
+        Travel:"🚗",
+
+        Education:"📚",
+
+        Sports:"⚽",
+
+        Entertainment:"🎮",
+
+        Bills:"📄",
+
+        Other:"💰"
+
+    };
+
+
+    return icons[category] || "💰";
+
+}
+
+
+/* =====================================================
+   CREATE CARD
+===================================================== */
+
+function createExpenseCard(
+    expense,
+    allowDelete
+){
+
+    const card =
+        document.createElement("div");
+
+
+    card.className =
+        "expenseCard";
+
+
+    const icon =
+        getIcon(
+            expense.category
+        );
+
+
+    const date =
+        new Date(
+            expense.date
+        ).toLocaleDateString(
+            "en-IN",
+            {
+                day:"numeric",
+                month:"short",
+                year:"numeric"
+            }
+        );
+
+
+    card.innerHTML = `
+
+        <div class="expenseIcon">
+            ${icon}
+        </div>
+
+        <div class="expenseInfo">
+
+            <h3>
+                ${escapeHTML(expense.title)}
+            </h3>
+
+            <p>
+                ${expense.category}
+                •
+                ${date}
+            </p>
+
+        </div>
+
+        <div class="expenseAmount">
+            -₹${Number(expense.amount).toLocaleString("en-IN")}
+        </div>
+
+        ${
+            allowDelete
+            ?
+            `
+            <button
+                class="delete"
+                onclick="deleteExpense(${expense.id})"
+            >
+                ×
+            </button>
+            `
+            :
+            ""
+        }
+
+    `;
+
+
+    return card;
+
+}
+
+
+/* =====================================================
+   SECURITY HELPER
+===================================================== */
+
+function escapeHTML(text){
+
+    const div =
+        document.createElement("div");
+
+    div.textContent =
+        text;
+
+    return div.innerHTML;
+
+}
+
+
+/* =====================================================
+   RENDER EXPENSES
+===================================================== */
+
+function renderExpenses(){
+
+    const all =
+        document
+        .getElementById("allExpenses");
+
+
+    const recent =
+        document
+        .getElementById("recentExpenses");
+
+
+    all.innerHTML = "";
+
+    recent.innerHTML = "";
+
+
+    if(expenses.length === 0){
+
+        const empty =
+            document.createElement("div");
+
+
+        empty.className =
+            "empty";
+
+
+        empty.innerHTML = `
+
+            <div style="font-size:40px">
+                💸
+            </div>
+
+            <strong>
+                No expenses yet
+            </strong>
+
+            Tap
+            <b>+ ADD EXPENSE</b>
+            to add your first transaction.
+
+        `;
+
+
+        all.appendChild(empty);
+
+        recent.appendChild(
+            empty.cloneNode(true)
+        );
+
+        return;
+
+    }
+
+
+    expenses.forEach(
+        function(expense){
+
+            all.appendChild(
+                createExpenseCard(
+                    expense,
+                    true
+                )
+            );
+
+        }
+    );
+
+
+    expenses
+    .slice(0,3)
+    .forEach(
+        function(expense){
+
+            recent.appendChild(
+                createExpenseCard(
+                    expense,
+                    false
+                )
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   UPDATE EVERYTHING
+===================================================== */
+
+function updateEverything(){
+
+    const total =
+        getTotalExpenses();
+
+
+    const currentBalance =
+        getBalance();
+
 
     document
     .getElementById("incomeAmount")
     .textContent =
-    "₹" +
-    income.toLocaleString(
-        "en-IN"
-    );
+        "₹" +
+        income.toLocaleString(
+            "en-IN"
+        );
+
+
+    document
+    .getElementById("expenseTotal")
+    .textContent =
+        "₹" +
+        total.toLocaleString(
+            "en-IN"
+        );
+
 
     document
     .getElementById("balanceAmount")
     .textContent =
-    "₹" +
-    income.toLocaleString(
-        "en-IN"
-    );
+        "₹" +
+        currentBalance.toLocaleString(
+            "en-IN"
+        );
 
-}
-
-
-/* ================= NAV ================= */
-
-function changePage(button){
 
     document
-    .querySelectorAll(".nav button")
-    .forEach(
-        function(btn){
-            btn.classList.remove("active");
-        }
-    );
+    .getElementById("balanceText")
+    .textContent =
+        currentBalance < 0
+        ?
+        "⚠️ Expenses are above income."
+        :
+        "● Available after expenses.";
 
-    button.classList.add("active");
+
+    renderExpenses();
 
 }
+
+
+/* =====================================================
+   INITIAL DATA
+===================================================== */
+
+updateEverything();
 
 </script>
 
